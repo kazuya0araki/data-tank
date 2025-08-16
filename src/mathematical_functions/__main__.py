@@ -17,8 +17,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    match args.target:
-        case "covid_19":
-            covid_19.main()
-        case _:
-            print(args.target, "is not found. Please select: {}".format(const.DATASETS))
+    # match args.target:
+    #     case "covid_19":
+    #         covid_19.main()
+    #     case _:
+    #         print(args.target, "is not found. Please select: {}".format(const.DATASETS))
