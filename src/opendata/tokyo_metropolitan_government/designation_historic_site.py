@@ -5,7 +5,7 @@ import DataTank.src.utils.csv_util as util
 # metadata
 CSV_METADATA = {
   "target_url_list": [
-    ["https://www.opendata.metro.tokyo.lg.jp/kyouiku/130001culturalproperty.csv", "cp932"],
+    ["https://www.opendata.metro.tokyo.lg.jp/kyouiku/ .csv", "cp932"],
   ],
   "header": ["都道府県名", "市区町村名", "名称", "文化財分類", "住所", "緯度", "経度", "所有者等", "文化財指定日", "備考"],
   "dropna": ["緯度", "経度"],

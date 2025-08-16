@@ -21,7 +21,6 @@ POSITIVE_CSV_METADATA = {
     "dropna": ["Date"],
 }
 POSITIVE_RENAMED_HEADER = {"Date": "date", "ALL": "positives"}
-COVID_19_OUTPUT_CSV = const.OUTPUT_DESTINATION.format("opendata/mhlw/covid_19.csv")
 
 
 # main
@@ -40,6 +39,6 @@ def main():
 
     # output csv
     try:
-        csv_util.output_csv(data, COVID_19_OUTPUT_CSV)
+        csv_util.output_csv(data, const.COVID_19_CSV)
     except csv.Error as e:
         exception(e)

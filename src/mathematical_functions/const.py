@@ -42,6 +42,7 @@ MATH_DATASETS = [
 ## general
 ## Lissajous curve
 ## involute curve
- ]
+]
 MATH_OUTPUT_DESTINATION = "./data/{}"
+MATH_CSV = ""
 DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + "/../../data/csv/Mathematical Functions/"
