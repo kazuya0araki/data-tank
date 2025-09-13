@@ -1,4 +1,4 @@
-# DataTank
+# Data Tank
 
 ## Image Sampling
 
