@@ -2,6 +2,9 @@
 import csv
 from logging import exception
 
+# Third Party Library
+import polars as pl
+
 # First Party Library
 from utils import csv_util
 
@@ -30,11 +33,8 @@ def main():
     positive_data = csv_util.marge_csv(POSITIVE_CSV_METADATA)
 
     # data preprocessing
-    pcr_data = pcr_data.rename(columns=PCR_RENAMED_HEADER)
-    pcr_data.fillna(0, inplace=True)
-    pcr_data = pcr_data.astype({"tests": "int64"})
-    positive_data = positive_data.rename(columns=POSITIVE_RENAMED_HEADER)
-    positive_data = positive_data.astype({"positives": "int64"})
+    pcr_data = pcr_data.rename(PCR_RENAMED_HEADER).fill_null(0).with_columns(pl.col("tests").cast(pl.Int64))
+    positive_data = positive_data.rename(POSITIVE_RENAMED_HEADER).with_columns(pl.col("positives").cast(pl.Int64))
     data = csv_util.join_csv(pcr_data, "left", positive_data, "date")
 
     # output csv

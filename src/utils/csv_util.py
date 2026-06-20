@@ -1,40 +1,51 @@
 # Standard Library
-import csv
+import io
+import urllib.request
 
 # Third Party Library
-import pandas as pd
+import polars as pl
 
 
 def download_csv(target_csv, csv_charset, csv_header, csv_dropna):
-    return pd.read_csv(target_csv, encoding=csv_charset).loc[:, csv_header].dropna(subset=csv_dropna)
+    if csv_charset in ("utf8", "utf8-lossy"):
+        df = pl.read_csv(target_csv, encoding=csv_charset)
+    elif str(target_csv).startswith(("http://", "https://")):
+        with urllib.request.urlopen(target_csv) as resp:  # noqa: S310
+            df = pl.read_csv(io.StringIO(resp.read().decode(csv_charset)))
+    else:
+        with open(target_csv, "rb") as f:
+            df = pl.read_csv(io.StringIO(f.read().decode(csv_charset)))
+    return df.select(csv_header).drop_nulls(subset=csv_dropna)
 
 
 def marge_csv(csv_metadata):
-    output = pd.DataFrame(columns=csv_metadata["header"])
-    for target_csv in csv_metadata["target_url_list"]:
-        data = download_csv(target_csv[0], target_csv[1], csv_metadata["header"], csv_metadata["dropna"])
-        return pd.concat([output, data])
+    frames = [
+        download_csv(target_csv[0], target_csv[1], csv_metadata["header"], csv_metadata["dropna"])
+        for target_csv in csv_metadata["target_url_list"]
+    ]
+    return pl.concat(frames)
 
 
 def join_csv(left_data, join_type, right_data, on_key):
-    if join_type in ["left", "right", "inner", "outer", "cross"]:
-        return left_data.merge(right_data, on=on_key, how=join_type)
-    else:
-        return left_data.merge(right_data, on=on_key, how="left")
+    _map = {"outer": "full"}
+    how = _map.get(join_type, join_type)
+    if how in ("left", "right", "inner", "full", "cross"):
+        return left_data.join(right_data, on=on_key, how=how)
+    return left_data.join(right_data, on=on_key, how="left")
 
 
 def replace(data, column, trim_strings, replace_strings):
-    return data[column].str.replace(trim_strings, replace_strings)
+    return data[column].str.replace_all(trim_strings, replace_strings)
 
 
 def strip(data, column):
-    return data[column].str.strip()
+    return data[column].str.strip_chars()
 
 
 def distinct(data):
-    return data.drop_duplicates()
+    return data.unique()
 
 
 def output_csv(data, output_destination):
-    data.to_csv(output_destination, mode="w", index=False, quoting=csv.QUOTE_ALL, encoding="utf-8")
+    data.write_csv(output_destination, quote_style="always")
     print("* CSV出力が完了しました")

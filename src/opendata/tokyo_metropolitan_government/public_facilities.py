@@ -1,6 +1,5 @@
-import sys
-sys.path.append("../common/")
-import DataTank.src.utils.csv_util as util
+from utils import csv_util as util
+import polars as pl
 
 # metadata
 CSV_METADATA = {
@@ -19,8 +18,10 @@ def main():
   data = util.marge_csv(CSV_METADATA)
 
   # data preprocessing
-  data["駐車場_有無"] = data["駐車場_有無"].astype(bool)
-  data["料金_要否"] = data["料金_要否"].astype(bool)
+  data = data.with_columns([
+    pl.col("駐車場_有無").cast(pl.Boolean),
+    pl.col("料金_要否").cast(pl.Boolean),
+  ])
 
   # output data mart csv
   util.output_csv(data, OUTPUT_DESTINATION)
