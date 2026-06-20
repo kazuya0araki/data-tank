@@ -3,17 +3,18 @@ name = "data-tank"
 version = "0.0.2"
 description = "Data Tank"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dependencies = [
-    "numpy>=2.0.0",
-    "matplotlib>=3.9.0",
-    "opencv-python>=4.10.0.84",
-    "pandas>=2.2.2",
+    "numpy>=2.4.6",
+    "matplotlib>=3.11.0",
+    "opencv-python>=4.13.0.92",
+    "polars>=1.41.2",
 ]
 
 [dependency-groups]
 dev = [
-    "pre-commit>=3.7.1",
+    "pre-commit>=4.6.0",
+    "pytest>=9.1.1",
 ]
 
 [tool.ruff]

@@ -1,8 +1,5 @@
-import sys
-sys.path.append("../common/")
-import DataTank.src.utils.csv_util as util
-import pandas as pd
-from decimal import *
+from utils import csv_util as util
+import polars as pl
 
 # metadata
 CSV_METADATA = {
@@ -23,27 +20,30 @@ OUTPUT_DESTINATION = "../../../data/Tokyo Metropolitan Government/Life and Stati
 # main
 def main():
   # download csv
-  data = pd.DataFrame(columns=["年"].extend(CSV_METADATA["header"]))
+  frames = []
   for index, target_csv in enumerate(CSV_METADATA["target_url_list"]):
     subdata = util.download_csv(target_csv[0], target_csv[1], CSV_METADATA["header"], CSV_METADATA["dropna"])
-    subdata.insert(0, "年", CSV_METADATA["year"][index])
-    data = pd.concat([data, subdata])
+    subdata = subdata.with_columns(pl.lit(CSV_METADATA["year"][index]).alias("年")).select(["年", *CSV_METADATA["header"]])
+    frames.append(subdata)
+  data = pl.concat(frames)
 
   # data preprocessing
-  data = data[data["地域階層"] == "2"]
-  data.drop(columns="地域階層", inplace=True)
-  data["65歳以上人口の割合（％）"] = data["65歳以上人口の割合（％）"].astype("str").apply(lambda x: Decimal(x) / Decimal("100"))
-  data = data.astype({
-    "年": "int64",
-    "人口／総数（人）": "int64",
-    "人口／男（人）": "int64",
-    "人口／女（人）": "int64",
-    "（参考）世帯数（世帯）": "int64",
-    "小学校児童数（人）": "int64",
-    "中学校生徒数（人）": "int64",
-  })
-  data.rename(
-    columns={
+  data = (
+    data.filter(pl.col("地域階層") == "2")
+    .drop("地域階層")
+    .with_columns(
+      (pl.col("65歳以上人口の割合（％）").cast(pl.Float64) / 100).alias("65歳以上人口の割合（％）")
+    )
+    .cast({
+      "年": pl.Int64,
+      "人口／総数（人）": pl.Int64,
+      "人口／男（人）": pl.Int64,
+      "人口／女（人）": pl.Int64,
+      "（参考）世帯数（世帯）": pl.Int64,
+      "小学校児童数（人）": pl.Int64,
+      "中学校生徒数（人）": pl.Int64,
+    })
+    .rename({
       "地域": "市区町村",
       "面積（平方キロメートル）": "面積(㎢)",
       "人口／総数（人）": "人口(総数)",
@@ -53,8 +53,9 @@ def main():
       "（参考）世帯数（世帯）": "世帯数",
       "小学校児童数（人）": "小学校児童数",
       "中学校生徒数（人）": "中学校生徒数",
-    },
-    inplace=True)
+    })
+  )
+
   # output data mart csv
   util.output_csv(data, OUTPUT_DESTINATION)
 

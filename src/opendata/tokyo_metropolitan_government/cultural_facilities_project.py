@@ -19,7 +19,7 @@ def main():
   data = csv_util.marge_csv(CSV_METADATA)
 
   # data preprocessing
-  data["緯度"] = csv_util.replace(data, "緯度", ",", "")
+  data = data.with_columns(csv_util.replace(data, "緯度", ",", "").alias("緯度"))
 
   # output data mart csv
   csv_util.output_csv(data, OUTPUT_DESTINATION)

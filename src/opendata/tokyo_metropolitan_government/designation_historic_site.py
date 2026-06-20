@@ -1,6 +1,4 @@
-import sys
-sys.path.append("../common/")
-import DataTank.src.utils.csv_util as util
+from utils import csv_util as util
 
 # metadata
 CSV_METADATA = {
@@ -19,7 +17,7 @@ def main():
   data = util.marge_csv(CSV_METADATA)
 
   # data preprocessing
-  data["名称"] = util.strip(data, "名称")
+  data = data.with_columns(util.strip(data, "名称").alias("名称"))
   data = util.distinct(data)
 
   # output data mart csv
