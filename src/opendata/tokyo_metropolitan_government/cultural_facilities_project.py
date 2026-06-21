@@ -1,4 +1,6 @@
 
+import os
+
 from utils import csv_util
 
 # metadata
@@ -11,7 +13,7 @@ CSV_METADATA = {
   "dropna": ["緯度", "経度"],
 }
 
-OUTPUT_DESTINATION = "../../../data/Tokyo Metropolitan Government/Cultural Facilities Project/csv/output.csv"
+OUTPUT_DESTINATION = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../data/csv/opendata/tokyo_metropolitan_government/cultural_facilities_project/output.csv"))
 
 # main
 def main():

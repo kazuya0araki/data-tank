@@ -9,6 +9,7 @@ dependencies = [
     "matplotlib>=3.11.0",
     "opencv-python>=4.13.0.92",
     "polars>=1.41.2",
+    "typer[all]>=0.26.7",
 ]
 
 [dependency-groups]

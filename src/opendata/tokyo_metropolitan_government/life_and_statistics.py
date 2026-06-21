@@ -1,3 +1,5 @@
+import os
+
 from utils import csv_util as util
 import polars as pl
 
@@ -9,13 +11,15 @@ CSV_METADATA = {
     ["https://www.toukei.metro.tokyo.lg.jp/kurasi/2021/csv/ku21rv2310.csv", "utf8"],
     ["https://www.toukei.metro.tokyo.lg.jp/kurasi/2022/csv/ku22rv2310.csv", "utf8"],
     ["https://www.toukei.metro.tokyo.lg.jp/kurasi/2023/csv/ku23rv2310.csv", "utf8"],
+    ["https://www.toukei.metro.tokyo.lg.jp/kurasi/2024/csv/ku24rv2310.csv", "utf8"],
+    ["https://www.toukei.metro.tokyo.lg.jp/kurasi/2025/csv/ku25rv2310.csv", "utf8"],
   ],
   "header": ["地域階層", "地域", "面積（平方キロメートル）", "人口／総数（人）", "人口／男（人）", "人口／女（人）", "65歳以上人口の割合（％）", "（参考）世帯数（世帯）", "小学校児童数（人）", "中学校生徒数（人）"],
   "dropna": ["地域"],
-  "year": [2019, 2020, 2021, 2022, 2023],
+  "year": [2019, 2020, 2021, 2022, 2023, 2024, 2025],
 }
 
-OUTPUT_DESTINATION = "../../../data/Tokyo Metropolitan Government/Life and Statistics/csv/output.csv"
+OUTPUT_DESTINATION = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../data/csv/opendata/tokyo_metropolitan_government/life_and_statistics/output.csv"))
 
 # main
 def main():

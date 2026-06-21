@@ -14,32 +14,34 @@ uv run python -m mathematical_functions --target <dataset_name>
 
 | dataset_name | 関数 | 出力ファイル |
 |---|---|---|
-| *(未実装)* | 一次関数 `y = x` | `Linear_Function.csv` |
-| *(未実装)* | 二次関数 `y = x²` | `Quadratic_Function.csv` |
-| *(未実装)* | 三次関数 `y = x³` | `Cubic_Function.csv` |
-| *(未実装)* | 平方根 `y = x^(1/2)` | `Square_Root_Function.csv` |
-| *(未実装)* | 立方根 `y = x^(1/3)` | `Cubic_Root_Function.csv` |
-| *(未実装)* | 指数関数 `y = eˣ` | `Exponential_X_Function.csv` |
+| `linear_function` | 一次関数 `y = x` | `Linear_Function.csv` |
+| `quadratic_function` | 二次関数 `y = x²` | `Quadratic_Function.csv` |
+| `cubic_function` | 三次関数 `y = x³` | `Cubic_Function.csv` |
+| `square_root_function` | 平方根 `y = x^(1/2)` | `Square_Root_Function.csv` |
+| `cubic_root_function` | 立方根 `y = x^(1/3)` | `Cubic_Root_Function.csv` |
+| `two_to_the_xth_power_function` | 指数関数 `y = 2^x` | `Two_to_the_xth_Power_Function.csv` |
+| `exponential_x_function` | 自然指数関数 `y = eˣ` | `Exponential_X_Function.csv` |
+| `logarithm_function` | 自然対数 `y = ln(x)` | `Logarithm_Function.csv` |
 
 ### 三角関数
 
 | dataset_name | 関数 | 出力ファイル |
 |---|---|---|
-| *(未実装)* | sin `y = sin(x)` | `Sine.csv` |
-| *(未実装)* | cos `y = cos(x)` | `Cosine.csv` |
-| *(未実装)* | tan `y = tan(x)` | `Tangent.csv` |
+| `sine` | sin `y = sin(x)` | `Sine.csv` |
+| `cosine` | cos `y = cos(x)` | `Cosine.csv` |
+| `tangent` | tan `y = tan(x)` | `Tangent.csv` |
 
 ### 媒介変数曲線
 
 | dataset_name | 曲線 | 出力ファイル |
 |---|---|---|
-| *(未実装)* | サイクロイド | `Cycloid.csv` |
-| *(未実装)* | アストロイド | `Astroid.csv` |
-| *(未実装)* | カージオイド | `Cardioid.csv` |
-| *(未実装)* | 円 | `Circle.csv` |
-| *(未実装)* | 対数螺旋 | `Logarithmic_Spiral.csv` |
-| *(未実装)* | リサージュ曲線 | `Lissajous_Curve_1/2/3.csv` |
-| *(未実装)* | インボリュート曲線 | `Involute_Curve.csv` |
+| `cycloid` | サイクロイド | `Cycloid.csv` |
+| `astroid` | アストロイド | `Astroid.csv` |
+| `cardioid` | カージオイド | `Cardioid.csv` |
+| `circle` | 円 | `Circle.csv` |
+| `logarithmic_spiral` | 対数螺旋 | `Logarithmic_Spiral.csv` |
+| `lissajous_curve` | リサージュ曲線 | `Lissajous_Curve_1/2/3.csv` |
+| `involute_curve` | インボリュート曲線 | `Involute_Curve.csv` |
 
 ## 出力先
 

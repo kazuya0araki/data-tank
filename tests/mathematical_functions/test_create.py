@@ -96,3 +96,47 @@ def test_create_astroid_csv(tmp_path):
         1.0,
         atol=1e-9,
     )
+
+
+def test_create_two_to_the_xth_power_function_csv(tmp_path):
+    create.create_two_to_the_xth_power_function_csv()
+    data = np.loadtxt(tmp_path / "Two_to_the_xth_Power_Function.csv", delimiter=",", skiprows=1)
+    np.testing.assert_allclose(data[:, 1], 2 ** data[:, 0], rtol=1e-6)
+
+
+def test_create_logarithm_function_csv(tmp_path):
+    create.create_logarithm_function_csv()
+    data = np.loadtxt(tmp_path / "Logarithm_Function.csv", delimiter=",", skiprows=1)
+    assert (data[:, 0] > 0).all()
+    np.testing.assert_allclose(data[:, 1], np.log(data[:, 0]), rtol=1e-9)
+
+
+def test_create_cardioid_csv(tmp_path):
+    create.create_cardioid_csv()
+    data = np.loadtxt(tmp_path / "Cardioid.csv", delimiter=",", skiprows=1)
+    assert data.shape == (361, 2)
+
+
+def test_create_logarithmic_spiral_csv(tmp_path):
+    create.create_general_csv()
+    data = np.loadtxt(tmp_path / "Logarithmic_Spiral.csv", delimiter=",", skiprows=1)
+    r4 = np.linspace(0, 4 * np.pi, 721)
+    np.testing.assert_allclose(data[:, 0], np.exp(r4 / 4) * np.cos(r4), rtol=1e-6, atol=1e-9)
+    np.testing.assert_allclose(data[:, 1], np.exp(r4 / 4) * np.sin(r4), rtol=1e-6, atol=1e-9)
+
+
+def test_create_lissajous_curve_csv(tmp_path):
+    create.create_lissajous_curve_csv()
+    assert (tmp_path / "Lissajous_Curve_1.csv").exists()
+    assert (tmp_path / "Lissajous_Curve_2.csv").exists()
+    assert (tmp_path / "Lissajous_Curve_3.csv").exists()
+    data = np.loadtxt(tmp_path / "Lissajous_Curve_1.csv", delimiter=",", skiprows=1)
+    assert data.shape == (721, 2)
+
+
+def test_create_involute_curve_csv(tmp_path):
+    create.create_involute_curve_csv()
+    data = np.loadtxt(tmp_path / "Involute_Curve.csv", delimiter=",", skiprows=1)
+    r4 = np.linspace(0, 4 * np.pi, 721)
+    np.testing.assert_allclose(data[:, 0], np.cos(r4) + r4 * np.sin(r4), atol=1e-9)
+    np.testing.assert_allclose(data[:, 1], np.sin(r4) - r4 * np.cos(r4), atol=1e-9)
