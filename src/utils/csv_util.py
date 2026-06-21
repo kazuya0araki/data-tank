@@ -1,5 +1,6 @@
 # Standard Library
 import io
+import os
 import urllib.request
 
 # Third Party Library
@@ -23,6 +24,15 @@ def marge_csv(csv_metadata):
         download_csv(target_csv[0], target_csv[1], csv_metadata["header"], csv_metadata["dropna"])
         for target_csv in csv_metadata["target_url_list"]
     ]
+    if len(frames) <= 1:
+        return frames[0] if frames else pl.DataFrame()
+    first_schema = frames[0].schema
+    cols_to_str = [
+        col for col in first_schema
+        if any(f.schema.get(col) != first_schema[col] for f in frames[1:])
+    ]
+    if cols_to_str:
+        frames = [f.with_columns([pl.col(c).cast(pl.String) for c in cols_to_str]) for f in frames]
     return pl.concat(frames)
 
 
@@ -47,5 +57,8 @@ def distinct(data):
 
 
 def output_csv(data, output_destination):
+    dest_dir = os.path.dirname(output_destination)
+    if dest_dir:
+        os.makedirs(dest_dir, exist_ok=True)
     data.write_csv(output_destination, quote_style="always")
     print("* CSV出力が完了しました")

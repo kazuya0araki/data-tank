@@ -3,46 +3,26 @@ import os
 
 
 MATH_DATASETS = [
-## linear function
-## quadratic function
-## cubic function
-## square root function
-## cubic root function
-## exponential function
-## logarithm function
-
-## trigonometric function
-### sine
-### cosine
-### tangent
-### cosecant csc
-### secant sec
-### cotangent cot
-## hyperbolic function
-### sinh
-### cosh
-### tanh
-### sech
-### csch
-### coth
-## inverse hyperbolic functions
-### arsinh
-### arcosh
-### artanh
-### arsech
-### arcsch
-### arcot
-# Parametric Representation
-## cycloid
-## astroid
-## cardioid
-
-## logarithmic spiral
-## circle
-## general
-## Lissajous curve
-## involute curve
+    # elementary functions
+    "linear_function",
+    "quadratic_function",
+    "cubic_function",
+    "square_root_function",
+    "cubic_root_function",
+    "two_to_the_xth_power_function",
+    "exponential_x_function",
+    "logarithm_function",
+    # trigonometric functions
+    "sine",
+    "cosine",
+    "tangent",
+    # parametric curves
+    "cycloid",
+    "astroid",
+    "cardioid",
+    "circle",
+    "logarithmic_spiral",
+    "lissajous_curve",
+    "involute_curve",
 ]
-MATH_OUTPUT_DESTINATION = "./data/{}"
-MATH_CSV = ""
-DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + "/../../data/csv/Mathematical Functions/"
+DATA_PATH = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/csv/mathematical_functions")) + "/"

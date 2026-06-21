@@ -1,24 +1,17 @@
-# Standard Library
-import argparse
+from typing import Annotated
 
-# First Party Library
+import typer
+
 from . import const, cultural_facilities_project, designation_historic_site, life_and_statistics, public_facilities
 
-if __name__ == "__main__":
+app = typer.Typer(help="東京都オープンデータ")
 
-    parser = argparse.ArgumentParser(
-        prog="Tokyo Metropolitan Government Open Data",
-        usage="python -m mhlw --target {dataset_name}",
-        description="東京都オープンデータ",
-        epilog="end",
-        add_help=True,
-    )
 
-    parser.add_argument("-T", "--target", type=str, dest="target", required=True, help="対象データセット名({})".format(const.DATASETS))
-
-    args = parser.parse_args()
-
-    match args.target:
+@app.command()
+def main(
+    target: Annotated[str, typer.Option("--target", "-T", help=f"対象データセット名 {const.DATASETS}")],
+):
+    match target:
         case "cultural_facilities_project":
             cultural_facilities_project.main()
         case "designation_historic_site":
@@ -28,4 +21,9 @@ if __name__ == "__main__":
         case "public_facilities":
             public_facilities.main()
         case _:
-            print(args.target, "is not found. Please select: {}".format(const.DATASETS))
+            typer.echo(f"{target} is not found. Please select: {const.DATASETS}", err=True)
+            raise typer.Exit(code=1)
+
+
+if __name__ == "__main__":
+    app()

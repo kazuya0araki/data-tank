@@ -72,9 +72,10 @@ def create_exponential_x_function_csv():
     # plt.show()
 
 def create_logarithm_function_csv():
-    ## logarithm function
-    # TODO: wip
-    return
+    ## logarithm function (natural log)
+    x = np.arange(0.1, 10.1, 0.1)
+    y = np.log(x)
+    np.savetxt("{0}Logarithm_Function.csv".format(const.DATA_PATH), np.stack([x, y], 1), fmt="%.10f", delimiter=",", header="x,y", comments="")
 
 # trigonometric function
 def create_sine_function_csv():

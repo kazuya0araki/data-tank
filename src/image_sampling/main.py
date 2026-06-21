@@ -7,6 +7,8 @@ from logging import exception
 import cv2 as cv
 import numpy as np
 
+_OUTPUT_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/csv/image_sampling"))
+
 
 def image_to_csv(image_file):
     # Read Image File
@@ -31,8 +33,10 @@ def image_to_csv(image_file):
                     }
                 )
     try:
+        os.makedirs(_OUTPUT_DIR, exist_ok=True)
+        _out_path = os.path.join(_OUTPUT_DIR, "{}.csv".format(os.path.splitext(os.path.basename(image_file))[0]))
         with open(
-            "./data/image_sampling/{}.csv".format(os.path.splitext(os.path.basename(image_file))[0]),
+            _out_path,
             "w",
             encoding="utf-8",
         ) as out:

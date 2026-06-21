@@ -4,6 +4,7 @@ import cv2 as cv
 import numpy as np
 import pytest
 
+from image_sampling import main
 from image_sampling.main import image_to_csv
 
 
@@ -13,9 +14,9 @@ def _write_image(path, pixel_array):
 
 @pytest.fixture()
 def output_dir(tmp_path, monkeypatch):
-    data_dir = tmp_path / "data" / "image_sampling"
+    data_dir = tmp_path / "image_sampling"
     data_dir.mkdir(parents=True)
-    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(main, "_OUTPUT_DIR", str(data_dir))
     return data_dir
 
 

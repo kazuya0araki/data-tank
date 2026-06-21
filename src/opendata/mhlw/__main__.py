@@ -1,27 +1,23 @@
-# Standard Library
-import argparse
+from typing import Annotated
 
-# Local Library
+import typer
+
 from . import const, covid_19
 
-if __name__ == "__main__":
+app = typer.Typer(help="厚生労働省のデータ")
 
-    parser = argparse.ArgumentParser(
-        prog="Ministry of Health, Labour and Welfare Open Data",
-        usage="python -m mhlw --target {dataset_name}",
-        description="厚生労働省のデータ",
-        epilog="end",
-        add_help=True,
-    )
 
-    parser.add_argument(
-        "-T", "--target", type=str, dest="target", required=True, help="対象データセット名({})".format(const.DATASETS)
-    )
-
-    args = parser.parse_args()
-
-    match args.target:
+@app.command()
+def main(
+    target: Annotated[str, typer.Option("--target", "-T", help=f"対象データセット名 {const.DATASETS}")],
+):
+    match target:
         case "covid_19":
             covid_19.main()
         case _:
-            print(args.target, "is not found. Please select: {}".format(const.DATASETS))
+            typer.echo(f"{target} is not found. Please select: {const.DATASETS}", err=True)
+            raise typer.Exit(code=1)
+
+
+if __name__ == "__main__":
+    app()

@@ -1,3 +1,5 @@
+import os
+
 from utils import csv_util as util
 import polars as pl
 
@@ -10,7 +12,7 @@ CSV_METADATA = {
   "dropna": ["緯度", "経度"],
 }
 
-OUTPUT_DESTINATION = "../../../data/Tokyo Metropolitan Government/Public Facilities/csv/output.csv"
+OUTPUT_DESTINATION = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../data/csv/opendata/tokyo_metropolitan_government/public_facilities/output.csv"))
 
 # main
 def main():
@@ -19,8 +21,8 @@ def main():
 
   # data preprocessing
   data = data.with_columns([
-    pl.col("駐車場_有無").cast(pl.Boolean),
-    pl.col("料金_要否").cast(pl.Boolean),
+    pl.col("駐車場_有無").cast(pl.Int64).cast(pl.Boolean),
+    pl.col("料金_要否").cast(pl.Int64).cast(pl.Boolean),
   ])
 
   # output data mart csv
